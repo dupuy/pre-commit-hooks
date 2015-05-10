@@ -12,7 +12,7 @@ def test_fixes_trailing_whitespace(tmpdir):
                 ('bar.py', 'bar\t\nbaz\t\n'),
         ):
             with open(filename, 'w') as file_obj:
-                file_obj.write(contents)  # pragma: no cover (26 coverage bug)
+                file_obj.write(contents)  # pragma: no branch (26 coverage bug)
 
         ret = fix_trailing_whitespace(['foo.py', 'bar.py'])
         assert ret == 1
@@ -31,7 +31,7 @@ def test_fixes_trailing_markdown_whitespace(tmpdir):
                 ('bar.markdown', 'bar   \nbaz\t\n\t\n'),
         ):
             with open(filename, 'w') as file_obj:
-                file_obj.write(contents)  # pragma: no cover (26 coverage bug)
+                file_obj.write(contents)  # pragma: no branch (26 coverage bug)
 
         ret = fix_trailing_whitespace(['foo.md', 'bar.markdown'])
         assert ret == 1
@@ -51,7 +51,7 @@ def test_markdown_linebreak_ext_opt(tmpdir):
                 ('bar.markdown', 'baz   \nquux  \t\n\t\n'),
         ):
             with open(filename, 'w') as file_obj:
-                file_obj.write(contents)  # pragma: no cover (26 coverage bug)
+                file_obj.write(contents)  # pragma: no branch (26 coverage bug)
 
         ret = fix_trailing_whitespace(['--markdown-linebreak-ext=md,TxT',
                                        'foo.txt', 'bar.MD', 'bar.markdown'])
@@ -72,7 +72,7 @@ def test_markdown_linebreak_ext_opt_all(tmpdir):
                 ('bar', 'bar   \nbaz\t\n\t\n'),
         ):
             with open(filename, 'w') as file_obj:
-                file_obj.write(contents)  # pragma: no cover (26 coverage bug)
+                file_obj.write(contents)  # pragma: no branch (26 coverage bug)
 
         # need to make sure filename is not treated as argument to option
         ret = fix_trailing_whitespace(['--markdown-linebreak-ext', '--',
@@ -93,7 +93,7 @@ def test_no_markdown_linebreak_ext_opt(tmpdir):
                 ('bar.markdown', 'baz   \nquux  \t\n\t\n'),
         ):
             with open(filename, 'w') as file_obj:
-                file_obj.write(contents)  # pragma: no cover (26 coverage bug)
+                file_obj.write(contents)  # pragma: no branch (26 coverage bug)
 
         ret = fix_trailing_whitespace(['--no-markdown-linebreak-ext',
                                        'bar.md', 'bar.markdown'])
