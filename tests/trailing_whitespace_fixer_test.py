@@ -52,6 +52,7 @@ def test_fixes_trailing_markdown_whitespace(filename, input_s, output, tmpdir):
 # pylint: disable=bad-whitespace
 MD_TESTS_2 = (
     ('foo.txt',       'foo  \nbar \n  \n',       'foo  \nbar\n\n'),
+    ('bar.Markdown',  'bar   \nbaz\t\n\t\n',     'bar  \nbaz\n\n'),
     ('bar.MD',        'bar   \nbaz\t   \n\t\n',  'bar  \nbaz\n\n'),
     ('.txt',          'baz   \nquux  \t\n\t\n',  'baz\nquux\n\n'),
     ('txt',           'foo   \nbaz \n\t\n',      'foo\nbaz\n\n'),
@@ -65,7 +66,7 @@ def test_markdown_linebreak_ext_opt(filename, input_s, output, tmpdir):
         with open(filename, 'w') as file_obj:
             file_obj.write(input_s)  # pragma: no branch (26 coverage bug)
 
-        ret = fix_trailing_whitespace(['--markdown-linebreak-ext=md,TxT',
+        ret = fix_trailing_whitespace(['--markdown-linebreak-ext=TxT',
                                        filename])
         assert ret == 1
         assert open(filename).read() == output

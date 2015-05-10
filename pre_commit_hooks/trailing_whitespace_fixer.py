@@ -35,7 +35,7 @@ def fix_trailing_whitespace(argv=None):
         '--markdown-linebreak-ext',
         action='append',
         const='*',
-        default=argparse.SUPPRESS,
+        default=['md,markdown'],
         metavar='EXTS',
         nargs='?',
         help='Markdown extensions (or *) for linebreak spaces'
@@ -49,7 +49,7 @@ def fix_trailing_whitespace(argv=None):
 
     # combine all extension arguments, splitting at ',' and normalizing them
     # (lowercase and remove unnecessary leading '.' which may be present)
-    md_args = getattr(args, 'markdown_linebreak_ext', ['md', 'markdown'])
+    md_args = args.markdown_linebreak_ext
     md_exts = [x.lower().lstrip('.') for x in ','.join(md_args).split(',')]
     all_markdown = '*' in md_exts
 

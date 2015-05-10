@@ -48,8 +48,8 @@ Add this to your `.pre-commit-config.yaml`
 - `requirements-txt-fixer` - Sorts entries in requirements.txt
 - `trailing-whitespace` - Trims trailing whitespace.
     - Markdown linebreak trailing spaces preserved for `.md` and`.markdown`;
-      use `args: ['--markdown-linebreak-ext=txt,md']` to set other extensions,
-      (`*` ext matches any)
+      use `args: ['--markdown-linebreak-ext=txt,text']` to add other extensions,
+      `args: ['--markdown-linebreak-ext=*']` to preserve them for all files,
       or `args: ['--no-markdown-linebreak-ext']` to disable and always trim.
 
 ### As a standalone package
