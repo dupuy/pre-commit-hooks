@@ -23,13 +23,23 @@ def _fix_file(filename, markdown=False):
 
 def fix_trailing_whitespace(argv=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--no-markdown-linebreak-ext', action='store_const',
-                        const=[], default=argparse.SUPPRESS,
-                        dest='markdown_linebreak_ext',
-                        help='Do not preserve linebreak spaces in Markdown')
-    parser.add_argument('--markdown-linebreak-ext', action='append', const='*',
-                        default=argparse.SUPPRESS, metavar='EXTS', nargs='?',
-                        help='Markdown extensions (or *) for linebreak spaces')
+    parser.add_argument(
+        '--no-markdown-linebreak-ext',
+        action='store_const',
+        const=[],
+        default=argparse.SUPPRESS,
+        dest='markdown_linebreak_ext',
+        help='Do not preserve linebreak spaces in Markdown'
+    )
+    parser.add_argument(
+        '--markdown-linebreak-ext',
+        action='append',
+        const='*',
+        default=argparse.SUPPRESS,
+        metavar='EXTS',
+        nargs='?',
+        help='Markdown extensions (or *) for linebreak spaces'
+    )
     parser.add_argument('filenames', nargs='*', help='Filenames to fix')
     args = parser.parse_args(argv)
 
