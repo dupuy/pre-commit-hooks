@@ -49,7 +49,7 @@ def fix_trailing_whitespace(argv=None):
 
     # combine all extension arguments, splitting at ',' and normalizing them
     # (lowercase and remove unnecessary leading '.' which may be present)
-    md_args = vars(args).get('markdown_linebreak_ext', ['md', 'markdown'])
+    md_args = getattr(args, 'markdown_linebreak_ext', ['md', 'markdown'])
     md_exts = [x.lower().lstrip('.') for x in ','.join(md_args).split(',')]
     all_markdown = '*' in md_exts
 
