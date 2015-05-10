@@ -69,19 +69,19 @@ def test_markdown_linebreak_ext_opt_all(tmpdir):
     with cwd(tmpdir.strpath):
         for filename, contents in (
                 ('foo.baz', 'foo  \nbar \n  '),
-                ('bar.quux', 'bar   \nbaz\t\n\t\n'),
+                ('bar', 'bar   \nbaz\t\n\t\n'),
         ):
             with open(filename, 'w') as file_obj:
                 file_obj.write(contents)  # pragma: no cover (26 coverage bug)
 
         # need to make sure filename is not treated as argument to option
         ret = fix_trailing_whitespace(['--markdown-linebreak-ext', '--',
-                                       'foo.baz', 'bar.quux'])
+                                       'foo.baz', 'bar'])
         assert ret == 1
 
         for filename, after_contents in (
                 ('foo.baz', 'foo  \nbar\n\n'),
-                ('bar.quux', 'bar  \nbaz\n\n'),
+                ('bar', 'bar  \nbaz\n\n'),
         ):
             assert open(filename).read() == after_contents
 
