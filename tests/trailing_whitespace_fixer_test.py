@@ -1,6 +1,8 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
 
+import sys
+
 import pytest
 
 from pre_commit_hooks.trailing_whitespace_fixer import fix_trailing_whitespace
@@ -88,10 +90,20 @@ def test_markdown_linebreak_ext_opt_all(filename, input_s, output, tmpdir):
             file_obj.write(input_s)  # pragma: no branch (26 coverage bug)
 
         # need to make sure filename is not treated as argument to option
-        ret = fix_trailing_whitespace(['--markdown-linebreak-ext', '--',
+        ret = fix_trailing_whitespace(['--markdown-linebreak-ext=*',
                                        filename])
         assert ret == 1
         assert open(filename).read() == output
+
+
+@pytest.mark.parametrize(('arg'), ('--', 'a.b', 'a/b'))
+def test_markdown_linebreak_ext_badopt(arg):
+    try:
+        ret = fix_trailing_whitespace(['--markdown-linebreak-ext', arg])
+    except SystemExit:
+        ret = sys.exc_info()[1].code
+    finally:
+        assert ret == 2
 
 
 # filename, expected input, expected output

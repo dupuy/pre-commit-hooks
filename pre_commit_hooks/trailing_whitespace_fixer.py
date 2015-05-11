@@ -34,9 +34,9 @@ def fix_trailing_whitespace(argv=None):
     parser.add_argument(
         '--markdown-linebreak-ext',
         action='append',
-        const='*',
+        const='',
         default=['md,markdown'],
-        metavar='EXTS',
+        metavar='*|EXT[,EXT,...]',
         nargs='?',
         help='Markdown extensions (or *) for linebreak spaces'
     )
@@ -47,11 +47,23 @@ def fix_trailing_whitespace(argv=None):
         'grep', '-l', '[[:space:]]$', *args.filenames, retcode=None
     ).strip().splitlines()
 
+    md_args = args.markdown_linebreak_ext
+    if '' in md_args:
+        parser.error('--markdown-linebreak-ext requires a non-empty argument')
     # combine all extension arguments, splitting at ',' and normalizing them
     # (lowercase and remove unnecessary leading '.' which may be present)
-    md_args = args.markdown_linebreak_ext
     md_exts = [x.lower().lstrip('.') for x in ','.join(md_args).split(',')]
     all_markdown = '*' in md_exts
+
+    # reject probable "eaten" filename as extension
+    for ext in md_exts:
+        if '.' in ext or '/' in ext:
+            parser.error(
+                "--markdown-linebreak-ext extension '{0}' cannot contain "
+                "'.' or '/'\n"
+                "  (if it's a filename, use the correct form "
+                "'--markdown-linebreak-ext=EXT')".format(ext)
+            )
 
     if bad_whitespace_files:
         for bad_whitespace_file in bad_whitespace_files:
