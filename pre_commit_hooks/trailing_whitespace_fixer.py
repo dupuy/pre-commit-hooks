@@ -50,27 +50,24 @@ def fix_trailing_whitespace(argv=None):
     md_args = args.markdown_linebreak_ext
     if '' in md_args:
         parser.error('--markdown-linebreak-ext requires a non-empty argument')
-    # combine all extension arguments, splitting at ',' and normalizing them
-    # (lowercase and remove unnecessary leading '.' which may be present)
-    md_exts = [x.lower().lstrip('.') for x in ','.join(md_args).split(',')]
-    all_markdown = '*' in md_exts
+    all_markdown = '*' in md_args
+    # normalize all extensions; split at ',', lowercase, and force 1 leading '.'
+    md_exts = ['.' + x.lower().lstrip('.')
+               for x in ','.join(md_args).split(',')]
 
-    # reject probable "eaten" filename as extension
+    # reject probable "eaten" filename as extension (skip leading '.' with [1:])
     for ext in md_exts:
-        if '.' in ext or '/' in ext:
+        if any(c in ext[1:] for c in r'./\:'):
             parser.error(
-                "--markdown-linebreak-ext extension '{0}' cannot contain "
-                "'.' or '/'\n"
-                "  (if it's a filename, use the correct form "
-                "'--markdown-linebreak-ext=EXT')".format(ext)
+                "bad --markdown-linebreak-ext extension '{0}' (has . / \\ :)\n"
+                "  (probably filename; use '--markdown-linebreak-ext=EXT')"
+                .format(ext)
             )
 
     if bad_whitespace_files:
         for bad_whitespace_file in bad_whitespace_files:
-            # get extension ([1]); remove leading '.' ([1:]); and make lowercase
-            extension = os.path.splitext(bad_whitespace_file)[1][1:].lower()
-
             print('Fixing {0}'.format(bad_whitespace_file))
+            _, extension = os.path.splitext(bad_whitespace_file.lower())
             _fix_file(bad_whitespace_file, all_markdown or extension in md_exts)
         return 1
     else:
