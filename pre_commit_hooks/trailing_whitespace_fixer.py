@@ -2,8 +2,8 @@ from __future__ import print_function
 
 import argparse
 import fileinput
-import sys
 import os
+import sys
 
 from pre_commit_hooks.util import cmd_output
 
